@@ -7,7 +7,7 @@
  *
  * The whole node is positioned at `centerProperty`; a {@link RichDragListener}
  * updates that property (clamped to the field bounds) for pointer and keyboard
- * (the node is focusable), per the OpenPhysics accessibility convention.
+ * (the node is focusable), per the OpenLyceum accessibility convention.
  */
 
 import type { TReadOnlyProperty } from "scenerystack/axon";

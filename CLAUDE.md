@@ -1,6 +1,6 @@
 # CLAUDE.md — Variable Star Photometry
 
-Sim-specific context for AI assistants. General SceneryStack guidance: [OpenPhysics/.github/CLAUDE.md](https://github.com/OpenPhysics/.github/blob/main/CLAUDE.md).
+Sim-specific context for AI assistants. General SceneryStack guidance: [OpenLyceum/.github/CLAUDE.md](https://github.com/OpenLyceum/.github/blob/main/CLAUDE.md).
 
 ## Project
 
@@ -43,7 +43,7 @@ Four **independent** screen models — **no cross-screen state** (registration o
 
 ## Accessibility
 
-Follows the shared [OpenPhysics accessibility convention](https://github.com/OpenPhysics/Baton/blob/main/ACCESSIBILITY.md).
+Follows the shared [OpenLyceum accessibility convention](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
 Each screen registers `*ScreenSummaryContent` via its `*Screen.ts` wrapper and sets explicit `pdomOrder` on a wrapper `Node`. A11y strings live under `a11y.registration`, `a11y.blinkComparator`, `a11y.photometry`, and `a11y.analyzer` in each locale JSON, via `StringManager.getRegistrationA11yStrings()` / `getBlinkComparatorA11yStrings()` / `getPhotometryA11yStrings()` / `getAnalyzerA11yStrings()`. `ApertureNode` is keyboard-operable via `KeyboardDragListener` (arrow keys; Shift for fine steps).
 
 ## Testing
@@ -66,7 +66,7 @@ Fleet-standard Vitest layout:
 - Run `npm test`. CI runs the suite when a `test` script is present.
 - Vitest environment: **`jsdom`** (not the fleet-default `happy-dom`) — photometry math needs
   browser globals without pulling the full SceneryStack barrel. Documented `setup.ts` carve-out
-  per [Baton/CONVENTIONS.md](https://github.com/OpenPhysics/Baton/blob/main/CONVENTIONS.md) §5.
+  per [Baton/CONVENTIONS.md](https://github.com/OpenLyceum/Baton/blob/main/CONVENTIONS.md) §5.
 
 ## Commands
 

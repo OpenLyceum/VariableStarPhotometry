@@ -1,6 +1,6 @@
 # Variable Star Photometry
 
-[![CI](https://github.com/OpenPhysics/VariableStarPhotometry/actions/workflows/ci.yml/badge.svg)](https://github.com/OpenPhysics/VariableStarPhotometry/actions/workflows/ci.yml)
+[![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 
 An interactive multi-screen simulation for studying variable stars through CCD photometry,
 built with [SceneryStack](https://scenerystack.org/), Vite 8, TypeScript 7, and Biome 2.
@@ -21,7 +21,7 @@ A SceneryStack port of the [NAAP Variable Star Photometry Lab](https://astro.unl
 ### NAAP reference sources
 
 Upstream Flash / AIR / React NAAP sources live in the sibling
-[`Baseline`](https://github.com/OpenPhysics/Baseline) repo under `Astronomy/`
+[`Baseline`](https://github.com/OpenLyceum/Baseline) repo under `Astronomy/`
 (see `baselines.json`). Clone Baseline with the fleet bootstrap, then:
 
 ```bash
@@ -68,9 +68,9 @@ npm start        # dev server → http://localhost:5173
 
 ## License
 
-GNU Affero General Public License v3.0 — see [OpenPhysics org license](https://github.com/OpenPhysics/.github/blob/main/LICENSE).
+GNU Affero General Public License v3.0 — see [OpenLyceum org license](https://github.com/OpenLyceum/.github/blob/main/LICENSE).
 
 ## Contributing
 
-See [OpenPhysics contributing guidelines](https://github.com/OpenPhysics/.github/blob/main/CONTRIBUTING.md).
+See [OpenLyceum contributing guidelines](https://github.com/OpenLyceum/.github/blob/main/CONTRIBUTING.md).
 Report bugs via GitHub Issues; use org issue templates.
