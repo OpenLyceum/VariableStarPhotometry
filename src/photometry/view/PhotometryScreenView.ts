@@ -597,11 +597,17 @@ export class PhotometryScreenView extends ScreenView {
     const rightColumn = new VBox({
       spacing: 8,
       align: "left",
-      children: [aperture1Info, aperture2Info, magnitudePanel],
+      children: [aperture1Info, aperture2Info],
     });
     rightColumn.left = leftColumn.right + 12;
     rightColumn.top = leftColumn.top;
     this.addChild(rightColumn);
+
+    // Δm gets its own column: stacked under the aperture panels it ran ~40 px
+    // past the bottom of the layout, hiding the result the lab asks for.
+    magnitudePanel.left = rightColumn.right + 12;
+    magnitudePanel.top = leftColumn.top;
+    this.addChild(magnitudePanel);
 
     // -----------------------------------------------------------------------
     // Reset All
