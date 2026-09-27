@@ -8,6 +8,7 @@
  */
 import { DerivedProperty } from "scenerystack/axon";
 import { toFixed } from "scenerystack/dot";
+import { StringUtils } from "scenerystack/phetcommon";
 import { ScreenSummaryContent } from "scenerystack/sim";
 import { OBSERVATIONS } from "../../common/model/StarFieldData.js";
 import { StringManager } from "../../i18n/StringManager.js";
@@ -26,10 +27,11 @@ export class PhotometryScreenSummaryContent extends ScreenSummaryContent {
       ],
       (epochIndex, deltaM, measuredPattern, noMeasurementPattern) => {
         const pattern = deltaM === null ? noMeasurementPattern : measuredPattern;
-        return pattern
-          .replace("{{epoch}}", String(epochIndex + 1))
-          .replace("{{total}}", String(OBSERVATIONS.length))
-          .replace("{{delta}}", deltaM === null ? "" : toFixed(deltaM, 3));
+        return StringUtils.fillIn(pattern, {
+          epoch: String(epochIndex + 1),
+          total: String(OBSERVATIONS.length),
+          delta: deltaM === null ? "" : toFixed(deltaM, 3),
+        });
       },
     );
 

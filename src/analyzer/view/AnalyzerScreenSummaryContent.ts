@@ -8,6 +8,7 @@
  */
 import { DerivedProperty } from "scenerystack/axon";
 import { toFixed } from "scenerystack/dot";
+import { StringUtils } from "scenerystack/phetcommon";
 import { ScreenSummaryContent } from "scenerystack/sim";
 import { StringManager } from "../../i18n/StringManager.js";
 import type { AnalyzerModel } from "../model/AnalyzerModel.js";
@@ -26,9 +27,10 @@ export class AnalyzerScreenSummaryContent extends ScreenSummaryContent {
       (measurements, trialPeriod, withDataPattern, noDataPattern) =>
         measurements.length === 0
           ? noDataPattern
-          : withDataPattern
-              .replace("{{count}}", String(measurements.length))
-              .replace("{{period}}", toFixed(trialPeriod, 4)),
+          : StringUtils.fillIn(withDataPattern, {
+              count: String(measurements.length),
+              period: toFixed(trialPeriod, 4),
+            }),
     );
 
     super({

@@ -7,6 +7,7 @@
  * non-visual user can re-read the alignment state at any time.
  */
 import { DerivedProperty } from "scenerystack/axon";
+import { StringUtils } from "scenerystack/phetcommon";
 import { ScreenSummaryContent } from "scenerystack/sim";
 import { StringManager } from "../../i18n/StringManager.js";
 import type { RegistrationModel } from "../model/RegistrationModel.js";
@@ -27,10 +28,11 @@ export class RegistrationScreenSummaryContent extends ScreenSummaryContent {
       (onTop, x2, y2, x3, y3, pattern) => {
         const x = onTop === 2 ? x2 : x3;
         const y = onTop === 2 ? y2 : y3;
-        return pattern
-          .replace("{{number}}", String(onTop))
-          .replace("{{x}}", String(Math.round(x)))
-          .replace("{{y}}", String(Math.round(y)));
+        return StringUtils.fillIn(pattern, {
+          number: String(onTop),
+          x: String(Math.round(x)),
+          y: String(Math.round(y)),
+        });
       },
     );
 

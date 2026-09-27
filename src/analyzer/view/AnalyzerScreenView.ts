@@ -29,7 +29,7 @@ import {
 import { Dimension2, Range, toFixed, Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { type EmptySelfOptions, Orientation, optionize } from "scenerystack/phet-core";
-import { ModelViewTransform2 } from "scenerystack/phetcommon";
+import { ModelViewTransform2, StringUtils } from "scenerystack/phetcommon";
 import type { SceneryEvent } from "scenerystack/scenery";
 import { Circle, DragListener, HBox, Line, Node, Rectangle, RichDragListener, Text, VBox } from "scenerystack/scenery";
 import { NumberControl, type NumberControlOptions, PhetFont, ResetAllButton } from "scenerystack/scenery-phet";
@@ -911,7 +911,7 @@ export class AnalyzerScreenView extends ScreenView {
     const bestPeriodReadout = new Text(
       new DerivedProperty([model.pdmScanResultsProperty, strings.bestPeriodPatternStringProperty], (scan, pattern) => {
         const best = bestPeriod(scan);
-        return best === null ? "" : pattern.replace("{{value}}", toFixed(best, 4));
+        return best === null ? "" : StringUtils.fillIn(pattern, { value: toFixed(best, 4) });
       }),
       { font: SMALL_FONT, fill: VariableStarPhotometryColors.textColorProperty },
     );

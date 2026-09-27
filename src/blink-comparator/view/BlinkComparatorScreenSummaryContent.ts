@@ -7,6 +7,7 @@
  * running — so a non-visual user can re-read the state at any time.
  */
 import { DerivedProperty } from "scenerystack/axon";
+import { StringUtils } from "scenerystack/phetcommon";
 import { ScreenSummaryContent } from "scenerystack/sim";
 import { StringManager } from "../../i18n/StringManager.js";
 import type { BlinkComparatorModel } from "../model/BlinkComparatorModel.js";
@@ -23,7 +24,7 @@ export class BlinkComparatorScreenSummaryContent extends ScreenSummaryContent {
         a11y.currentDetailsPausedPatternStringProperty,
       ],
       (count, isBlinking, blinkingPattern, pausedPattern) =>
-        (isBlinking ? blinkingPattern : pausedPattern).replace("{{count}}", String(count)),
+        StringUtils.fillIn(isBlinking ? blinkingPattern : pausedPattern, { count: String(count) }),
     );
 
     super({
