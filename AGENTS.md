@@ -64,6 +64,8 @@ Fleet-standard Vitest layout:
 
 - Put unit tests only under root `tests/` (never co-locate or use `__tests__/`).
 - Run `npm test`. CI runs the suite when a `test` script is present.
+- Optional: `npm run test:fuzz` / `test:fuzz:quick` / `test:fuzz:long` (not part of default CI).
+  Duration is 30s by default; override with `npm run test:fuzz -- 90` or `FUZZ_DURATION=90`.
 - Vitest environment: **`jsdom`** (not the fleet-default `happy-dom`) — photometry math needs
   browser globals without pulling the full SceneryStack barrel. Documented `setup.ts` carve-out
   per [Baton/CONVENTIONS.md](https://github.com/OpenLyceum/Baton/blob/main/CONVENTIONS.md) §5.
