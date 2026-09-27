@@ -119,7 +119,6 @@
       "selectBothStars": "(select a variable and a comparison star)",
       "noLightCurve": "(no light curve yet)",
       "pdmTitle": "PDM Period Search",
-      "trialPeriod": "trial period: {{period}} days     (min θ at {{best}})",
       "zoomInAroundPeriod": "zoom in around period",
       "zoomOutAroundPeriod": "zoom out around period",
       "zoomToFull": "zoom to full range",

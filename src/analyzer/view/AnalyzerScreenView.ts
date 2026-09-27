@@ -32,7 +32,7 @@ import { type EmptySelfOptions, Orientation, optionize } from "scenerystack/phet
 import { ModelViewTransform2 } from "scenerystack/phetcommon";
 import type { SceneryEvent } from "scenerystack/scenery";
 import { Circle, DragListener, HBox, Line, Node, Rectangle, RichDragListener, Text, VBox } from "scenerystack/scenery";
-import { NumberControl, PhetFont, ResetAllButton } from "scenerystack/scenery-phet";
+import { NumberControl, type NumberControlOptions, PhetFont, ResetAllButton } from "scenerystack/scenery-phet";
 import { ScreenView, type ScreenViewOptions } from "scenerystack/sim";
 import { AquaRadioButtonGroup, Checkbox, TextPushButton } from "scenerystack/sun";
 import { Tandem } from "scenerystack/tandem";
@@ -49,6 +49,23 @@ import VariableStarPhotometryColors from "../../VariableStarPhotometryColors.js"
 import VariableStarPhotometryConstants from "../../VariableStarPhotometryConstants.js";
 import { type AnalyzerModel, type LightCurveMode, PERIOD_RANGE, PHASE_OFFSET_RANGE } from "../model/AnalyzerModel.js";
 import { applyChartRescale, tickSpacingForSpan } from "./chartRescale.js";
+
+/**
+ * NumberControl layout on one row (title, ◀, slider, ▶, value). The default
+ * two-row layout made the Analyzer's controls too tall for the 618 px layout.
+ */
+const singleRowNumberControlLayout: NonNullable<NumberControlOptions["layoutFunction"]> = (
+  titleNode,
+  numberDisplay,
+  slider,
+  decrementButton,
+  incrementButton,
+) =>
+  new HBox({
+    spacing: 6,
+    align: "center",
+    children: [titleNode, decrementButton ?? new Node(), slider, incrementButton ?? new Node(), numberDisplay],
+  });
 
 const FIELD_W = VariableStarPhotometryConstants.FIELD.WIDTH;
 const FIELD_H = VariableStarPhotometryConstants.FIELD.HEIGHT;
@@ -286,7 +303,7 @@ export class AnalyzerScreenView extends ScreenView {
     // Observations plot (Δmag vs Julian date / phase)
     // =======================================================================
     const OBS_W = 470;
-    const OBS_H = 250;
+    const OBS_H = 200;
     const OBS_TIME_RANGE = new Range(1, 22);
     const obsTransform = new ChartTransform({
       viewWidth: OBS_W,
@@ -656,7 +673,7 @@ export class AnalyzerScreenView extends ScreenView {
         titleNodeOptions: { font: SMALL_FONT, fill: VariableStarPhotometryColors.textColorProperty },
         numberDisplayOptions: { textOptions: { font: SMALL_FONT } },
         sliderOptions: { trackSize: new Dimension2(120, 3) },
-        layoutFunction: NumberControl.createLayoutFunction1(),
+        layoutFunction: singleRowNumberControlLayout,
         accessibleName: strings.phaseOffsetStringProperty,
       },
     );
@@ -704,8 +721,8 @@ export class AnalyzerScreenView extends ScreenView {
     // =======================================================================
     // PDM plot (θ vs trial period) with draggable period marker + zoom
     // =======================================================================
-    const PDM_W = 880;
-    const PDM_H = 150;
+    const PDM_W = 850;
+    const PDM_H = 98;
     const pdmTransform = new ChartTransform({
       viewWidth: PDM_W,
       viewHeight: PDM_H,
@@ -869,8 +886,11 @@ export class AnalyzerScreenView extends ScreenView {
     model.trialPeriodProperty.link(() => updateMarker());
 
     // PDM controls: period input + zoom buttons.
+    // Title is the plain axis label: the value is already in the number display and
+    // the minimum-θ period has its own readout. (The Flash-style "{{period}} … {{best}}"
+    // pattern was passed here unfilled, so the placeholders showed on screen.)
     const periodControl = new NumberControl(
-      strings.trialPeriodStringProperty,
+      strings.trialPeriodAxisStringProperty,
       model.trialPeriodProperty,
       PERIOD_RANGE,
       {
@@ -880,7 +900,7 @@ export class AnalyzerScreenView extends ScreenView {
           decimalPlaces: 4,
         },
         sliderOptions: { trackSize: new Dimension2(120, 3) },
-        layoutFunction: NumberControl.createLayoutFunction1(),
+        layoutFunction: singleRowNumberControlLayout,
         accessibleName: strings.trialPeriodAxisStringProperty,
       },
     );
@@ -973,7 +993,9 @@ export class AnalyzerScreenView extends ScreenView {
       ],
     });
     pdmColumn.left = 60;
-    pdmColumn.top = leftColumn.bottom + 10;
+    // Below BOTH top columns: starting under the left one only overlapped the
+    // phase-offset slider at the bottom of the right column.
+    pdmColumn.top = Math.max(leftColumn.bottom, obsColumn.bottom) + 10;
     this.addChild(pdmColumn);
 
     // Initialise dynamic chart state.

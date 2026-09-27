@@ -119,7 +119,6 @@
       "selectBothStars": "(seleccione una estrella variable y una de comparación)",
       "noLightCurve": "(aún no hay curva de luz)",
       "pdmTitle": "Búsqueda de período PDM",
-      "trialPeriod": "período de prueba: {{period}} días     (mín θ en {{best}})",
       "zoomInAroundPeriod": "acercar alrededor del período",
       "zoomOutAroundPeriod": "alejar alrededor del período",
       "zoomToFull": "alejar al rango completo",
