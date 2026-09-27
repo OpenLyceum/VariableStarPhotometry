@@ -30,7 +30,7 @@ import {
 import { Shape } from "scenerystack/kite";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import type { SceneryEvent, TColor } from "scenerystack/scenery";
-import { KeyboardListener, Node, Rectangle, RichDragListener, Text, VBox } from "scenerystack/scenery";
+import { KeyboardListener, Node, Rectangle, RichDragListener, RichText, Text, VBox } from "scenerystack/scenery";
 import { PhetFont, ResetAllButton } from "scenerystack/scenery-phet";
 import { ScreenView, type ScreenViewOptions } from "scenerystack/sim";
 import { AquaRadioButton, Checkbox, NumberPicker, Panel, TextPushButton } from "scenerystack/sun";
@@ -44,7 +44,7 @@ import { StarFieldNode } from "../../common/view/StarFieldNode.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import VariableStarPhotometryColors from "../../VariableStarPhotometryColors.js";
 import VariableStarPhotometryConstants from "../../VariableStarPhotometryConstants.js";
-import type { RegistrationModel } from "../model/RegistrationModel.js";
+import { REG_POINTING_ERRORS, type RegistrationModel } from "../model/RegistrationModel.js";
 
 const FIELD_W = VariableStarPhotometryConstants.FIELD.WIDTH;
 const FIELD_H = VariableStarPhotometryConstants.FIELD.HEIGHT;
@@ -60,7 +60,8 @@ const NUDGE_FINE_STEP_PX = 0.25;
 const WORK_PANEL_MARGIN = 12;
 const WORK_PANEL_TITLE_HEIGHT = 26;
 const CONTROL_TABLE_W = 286;
-const CONTROL_ROW_H = 34;
+// Tall enough for a NumberPicker (value with arrows above and below).
+const CONTROL_ROW_H = 54;
 const CONTROL_HEADER_H = 24;
 
 export type RegistrationScreenViewOptions = ScreenViewOptions;
@@ -153,18 +154,19 @@ export class RegistrationScreenView extends ScreenView {
     // Link work-area properties
     // -----------------------------------------------------------------------
 
-    // Positions
+    // Positions: each working frame is drawn at its pointing error plus the
+    // student's offset, so it lines up with field 1 when offset = −error.
     model.xOffset2Property.link((dx) => {
-      group2.x = dx;
+      group2.x = REG_POINTING_ERRORS[2].x + dx;
     });
     model.yOffset2Property.link((dy) => {
-      group2.y = dy;
+      group2.y = REG_POINTING_ERRORS[2].y + dy;
     });
     model.xOffset3Property.link((dx) => {
-      group3.x = dx;
+      group3.x = REG_POINTING_ERRORS[3].x + dx;
     });
     model.yOffset3Property.link((dy) => {
-      group3.y = dy;
+      group3.y = REG_POINTING_ERRORS[3].y + dy;
     });
 
     // Visibility
@@ -354,8 +356,8 @@ export class RegistrationScreenView extends ScreenView {
         ? makeTableControlNode(
             new Checkbox(shownProp, new Text("", { font: LABEL_FONT }), {
               boxWidth: 16,
-              checkboxColor: VariableStarPhotometryColors.textColorProperty,
-              checkboxColorBackground: VariableStarPhotometryColors.panelBackgroundColorProperty,
+              checkboxColor: VariableStarPhotometryColors.panelTextColorProperty,
+              checkboxColorBackground: VariableStarPhotometryColors.controlSurfaceColorProperty,
               accessibleName: controlName(a11yControls.shownPatternStringProperty),
             }),
             shownColumnX,
@@ -517,8 +519,8 @@ export class RegistrationScreenView extends ScreenView {
       {
         boxWidth: 16,
         accessibleName: strings.makeTopTransparentStringProperty,
-        checkboxColor: VariableStarPhotometryColors.textColorProperty,
-        checkboxColorBackground: VariableStarPhotometryColors.panelBackgroundColorProperty,
+        checkboxColor: VariableStarPhotometryColors.panelTextColorProperty,
+        checkboxColorBackground: VariableStarPhotometryColors.controlSurfaceColorProperty,
       },
     );
 
@@ -531,16 +533,17 @@ export class RegistrationScreenView extends ScreenView {
       {
         boxWidth: 16,
         accessibleName: strings.invertColorsStringProperty,
-        checkboxColor: VariableStarPhotometryColors.textColorProperty,
-        checkboxColorBackground: VariableStarPhotometryColors.panelBackgroundColorProperty,
+        checkboxColor: VariableStarPhotometryColors.panelTextColorProperty,
+        checkboxColorBackground: VariableStarPhotometryColors.controlSurfaceColorProperty,
       },
     );
 
     // Hint text
-    const hintText = new Text(strings.tipStringProperty, {
+    // Wrapped, not maxWidth-scaled: the one-line sentence shrank to ~5 px text.
+    const hintText = new RichText(strings.tipStringProperty, {
       font: SMALL_FONT,
       fill: VariableStarPhotometryColors.mutedTextColorProperty,
-      maxWidth: CONTROL_TABLE_W,
+      lineWrap: CONTROL_TABLE_W,
     });
 
     const appearanceContent = new VBox({

@@ -18,6 +18,18 @@ import VariableStarPhotometryNamespace from "../../VariableStarPhotometryNamespa
 // index 63 → epoch 12.9682 d  (working B)
 export const REG_OBS_INDICES = [0, 36, 63] as const;
 
+/**
+ * Telescope pointing error baked into each working frame (px), as in the NAAP
+ * lab: "the center of each frame is not exactly in the same location … due to
+ * minor errors in pointing and the telescope clock drive". Frames are drawn at
+ * pointing error + user offset, so they register when offset = −error — the
+ * values students report in the student guide's Question 6.
+ */
+export const REG_POINTING_ERRORS = {
+  2: { x: 14, y: -9 },
+  3: { x: -11, y: 17 },
+} as const;
+
 const OFFSET_RANGE = new Range(-100, 100);
 const clampOffset = (value: number) => Math.round(Math.max(OFFSET_RANGE.min, Math.min(OFFSET_RANGE.max, value)));
 
@@ -114,6 +126,16 @@ export class RegistrationModel {
       this.xOffset3Property.value = clampOffset(xOffset);
       this.yOffset3Property.value = clampOffset(yOffset);
     }
+  }
+
+  /** Whether a working field is registered on the reference field. */
+  public isFieldAligned(fieldIndex: 2 | 3): boolean {
+    const error = REG_POINTING_ERRORS[fieldIndex];
+    const [xOffset, yOffset] =
+      fieldIndex === 2
+        ? [this.xOffset2Property.value, this.yOffset2Property.value]
+        : [this.xOffset3Property.value, this.yOffset3Property.value];
+    return xOffset === -error.x && yOffset === -error.y;
   }
 
   /** Move the currently-on-top working field by (dx, dy) pixels (arrow keys). */

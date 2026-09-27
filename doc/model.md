@@ -56,6 +56,11 @@ Three **fixed** epoch indices (not user-selectable):
 | Working (2) | 36 | 8.7525 |
 | Working (3) | 63 | 12.9682 |
 
+Each working field carries a fixed **telescope pointing error** — field 2 (+14, −9) px, field 3
+(−11, +17) px — and is drawn at *pointing error + offset*. It registers on field 1 when its offset is
+the negative of that error: field 2 (−14, +9), field 3 (+11, −17), the answers to the student guide's
+Question 6. (Without the error the frames started perfectly aligned and there was nothing to register.)
+
 Working fields 2 and 3 have XY offsets (±**100 px** per axis), show/hide toggles, and "on top" selection
 (2 or 3). The on-top field can render at **40% opacity** when transparency is enabled. Arrow keys nudge
 the active field 1 px per press. Invert colors and show grid sync with global preferences.
