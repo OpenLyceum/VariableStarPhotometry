@@ -12,14 +12,15 @@
  *
  * ── How to customize ─────────────────────────────────────────────────────────
  * 1. Change `name` to match your package.json "name" field (kebab-case)
- * 2. Change `version` to match your package.json "version" field
+ * 2. `version` is read from package.json — bump it there (`npm version`), never here
  * 3. Update `availableLocales` when you add new translation files
  */
 import { init, madeWithSceneryStackSplashDataURI } from "scenerystack/init";
+import { version } from "../package.json";
 
 init({
   name: "variable-star-photometry",
-  version: "0.1.0",
+  version,
   brand: "made-with-scenerystack",
   locale: "en",
   availableLocales: ["en", "es", "fr"],

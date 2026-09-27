@@ -52,7 +52,7 @@ Fleet-standard Vitest layout:
 
 | Path | Purpose |
 |---|---|
-| `vitest.config.ts` | **`jsdom` environment** (no `setupFiles`); `scenerystack` aliased to `scenerystack/dot`; `execArgv: ["--expose-gc"]` |
+| `vitest.config.ts` | Fleet template: `happy-dom`, `setupFiles: ["./tests/setup.ts"]`, `execArgv: ["--expose-gc"]` |
 | `tests/**/*.test.ts` | Model/physics unit tests |
 | `tests/memory-leak.test.ts` | WeakRef + `forceGC` dispose regression (fleet pattern) |
 
@@ -66,9 +66,6 @@ Fleet-standard Vitest layout:
 - Run `npm test`. CI runs the suite when a `test` script is present.
 - Optional: `npm run test:fuzz` / `test:fuzz:quick` / `test:fuzz:long` (not part of default CI).
   Duration is 30s by default; override with `npm run test:fuzz -- 90` or `FUZZ_DURATION=90`.
-- Vitest environment: **`jsdom`** (not the fleet-default `happy-dom`) — photometry math needs
-  browser globals without pulling the full SceneryStack barrel. Documented `setup.ts` carve-out
-  per [Baton/CONVENTIONS.md](https://github.com/OpenLyceum/Baton/blob/main/CONVENTIONS.md) §5.
 
 ## Commands
 
@@ -76,7 +73,7 @@ Fleet-standard Vitest layout:
 npm run lint && npm run check && npm run build && npm test
 ```
 
-`npm run release` intentionally skips `npm test` in some sims — append `&& npm test` before the version bump so a release cannot ship a failing suite.
+`npm run release` runs `npm test` before the version bump, and `src/init.ts` reads `version` from `package.json`, so the About dialog always matches the release.
 
 ## Development notes
 
