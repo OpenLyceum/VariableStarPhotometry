@@ -17,6 +17,7 @@
 import type { TReadOnlyProperty } from "scenerystack/axon";
 import { DerivedProperty, NumberProperty, Property, StringUnionProperty } from "scenerystack/axon";
 import { Range, type Vector2 } from "scenerystack/dot";
+import type { TModel } from "scenerystack/joist";
 import type { Tandem } from "scenerystack/tandem";
 import { differentialMagnitude, measureAperture } from "../../common/model/AperturePhotometry.js";
 import { PDM_M, type PdmPoint, pdmScan } from "../../common/model/PDMCalculator.js";
@@ -60,7 +61,7 @@ const clampPdmRange = (min: number, max: number): Range | null => {
 /** Number of trial periods evaluated per scan (resolution adapts to zoom). */
 const PDM_SCAN_STEPS = VariableStarPhotometryConstants.PDM.SCAN_STEPS;
 
-export class AnalyzerModel {
+export class AnalyzerModel implements TModel {
   /** Trial period for phase-folding and the PDM marker, in days. */
   public readonly trialPeriodProperty: NumberProperty;
 

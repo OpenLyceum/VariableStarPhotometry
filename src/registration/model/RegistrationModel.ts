@@ -8,6 +8,7 @@
  */
 import { BooleanProperty, NumberProperty } from "scenerystack/axon";
 import { Range } from "scenerystack/dot";
+import type { TModel } from "scenerystack/joist";
 import type { Tandem } from "scenerystack/tandem";
 import type { VariableStarPhotometryPreferencesModel } from "../../preferences/VariableStarPhotometryPreferencesModel.js";
 import VariableStarPhotometryNamespace from "../../VariableStarPhotometryNamespace.js";
@@ -33,7 +34,7 @@ export const REG_POINTING_ERRORS = {
 const OFFSET_RANGE = new Range(-100, 100);
 const clampOffset = (value: number) => Math.round(Math.max(OFFSET_RANGE.min, Math.min(OFFSET_RANGE.max, value)));
 
-export class RegistrationModel {
+export class RegistrationModel implements TModel {
   public readonly obsIndex1 = REG_OBS_INDICES[0];
   public readonly obsIndex2 = REG_OBS_INDICES[1];
   public readonly obsIndex3 = REG_OBS_INDICES[2];

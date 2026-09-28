@@ -15,6 +15,7 @@
 import type { TReadOnlyProperty } from "scenerystack/axon";
 import { BooleanProperty, DerivedProperty, NumberProperty } from "scenerystack/axon";
 import { Range, Vector2, Vector2Property } from "scenerystack/dot";
+import type { TModel } from "scenerystack/joist";
 import type { Tandem } from "scenerystack/tandem";
 import {
   differentialMagnitude,
@@ -37,7 +38,7 @@ export const EPOCH_INDEX_RANGE = new Range(0, OBSERVATIONS.length - 1);
 const DEFAULT_APERTURE_1 = new Vector2(308, 175); // del Cep (variable)
 const DEFAULT_APERTURE_2 = new Vector2(111, 54); // bright constant star
 
-export class PhotometryModel {
+export class PhotometryModel implements TModel {
   /** Aperture diameter for stellar flux integration, in field pixels. */
   public readonly apertureDiameterProperty: NumberProperty;
 

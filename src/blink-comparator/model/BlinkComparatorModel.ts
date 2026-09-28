@@ -12,6 +12,7 @@
 import type { ObservableArray, TReadOnlyProperty } from "scenerystack/axon";
 import { BooleanProperty, createObservableArray, DerivedProperty, NumberProperty } from "scenerystack/axon";
 import { Range } from "scenerystack/dot";
+import type { TModel } from "scenerystack/joist";
 import type { Tandem } from "scenerystack/tandem";
 import { OBSERVATIONS } from "../../common/model/StarFieldData.js";
 import variableStarPhotometryQueryParameters from "../../preferences/variableStarPhotometryQueryParameters.js";
@@ -30,7 +31,7 @@ export const OBS_INDEX_RANGE = new Range(0, OBSERVATIONS.length - 1);
  */
 export const DEFAULT_QUEUE_INDICES: readonly number[] = [0, 36];
 
-export class BlinkComparatorModel {
+export class BlinkComparatorModel implements TModel {
   /** Observation indices the comparator blinks through, in order. */
   public readonly blinkQueue: ObservableArray<number>;
 
