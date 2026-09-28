@@ -19,12 +19,30 @@ import { init, madeWithSceneryStackSplashDataURI } from "scenerystack/init";
 import { version } from "../package.json";
 
 init({
+  // Internal identifier used by SceneryStack for URL parameters and phetmarks.
+  // Use kebab-case matching the package.json "name" field.
   name: "variable-star-photometry",
+
+  // Displayed in the About dialog (Help menu → About). Single source of truth is
+  // package.json, so `npm version` / `npm run release` can never leave it stale.
   version,
+
+  // Must match the id registered in src/brand.ts.
   brand: "made-with-scenerystack",
+
+  // Default locale (ISO-639-1, optionally with ISO-3166-1 country code, e.g. "en_US").
   locale: "en",
+
+  // All supported locales — must match the locale keys in src/i18n/StringManager.ts.
   availableLocales: ["en", "es", "fr"],
+
+  // Splash screen shown while the simulation loads.
   splashDataURI: madeWithSceneryStackSplashDataURI,
+
+  // Allow the user to switch locale at runtime via the Preferences dialog.
   allowLocaleSwitching: true,
+
+  // Enables the "Projector Mode" color profile alongside the default dark theme.
+  // Required when supportsProjectorMode: true is used in PreferencesModel (src/main.ts).
   colorProfiles: ["default", "projector"],
 });
