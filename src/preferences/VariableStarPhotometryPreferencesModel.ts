@@ -1,3 +1,11 @@
+/**
+ * VariableStarPhotometryPreferencesModel.ts
+ *
+ * Model for the simulation-specific preferences shown in Preferences →
+ * Simulation. Each preference Property takes its initial value from the
+ * corresponding query parameter in variableStarPhotometryQueryParameters.
+ */
+
 import { BooleanProperty } from "scenerystack/axon";
 import type { Tandem } from "scenerystack/tandem";
 import VariableStarPhotometryNamespace from "../VariableStarPhotometryNamespace.js";
