@@ -38,21 +38,25 @@ onReadyToLaunch(() => {
   const screens = [
     new RegistrationScreen({
       preferences: preferences,
+      // The screen name Property updates automatically when the locale changes
       name: screenNames.registrationStringProperty,
       tandem: Tandem.ROOT.createTandem("registrationScreen"),
     }),
     new BlinkComparatorScreen({
       preferences: preferences,
+      // The screen name Property updates automatically when the locale changes
       name: screenNames.blinkComparatorStringProperty,
       tandem: Tandem.ROOT.createTandem("blinkComparatorScreen"),
     }),
     new PhotometryScreen({
       preferences: preferences,
+      // The screen name Property updates automatically when the locale changes
       name: screenNames.photometryStringProperty,
       tandem: Tandem.ROOT.createTandem("photometryScreen"),
     }),
     new AnalyzerScreen({
       preferences: preferences,
+      // The screen name Property updates automatically when the locale changes
       name: screenNames.analyzerStringProperty,
       tandem: Tandem.ROOT.createTandem("analyzerScreen"),
     }),
@@ -61,7 +65,9 @@ onReadyToLaunch(() => {
   const sim = new Sim(stringManager.getTitleStringProperty(), screens, {
     preferencesModel: new PreferencesModel({
       visualOptions: {
+        // Adds a "Projector Mode" toggle in Preferences → Visual
         supportsProjectorMode: true,
+        // Enables keyboard-navigation highlight outlines
         supportsInteractiveHighlights: true,
       },
       simulationOptions: {
@@ -72,10 +78,12 @@ onReadyToLaunch(() => {
         ],
       },
       localizationOptions: {
+        // Adds a language picker in Preferences → Language
         supportsDynamicLocale: true,
       },
     }),
 
+    // Optional: fill in credits shown in Help → About
     credits: {
       leadDesign: "",
       softwareDevelopment: "",
