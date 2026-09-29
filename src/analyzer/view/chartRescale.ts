@@ -41,3 +41,8 @@ export function applyChartRescale(
     setSpacing();
   }
 }
+
+/** Number of decimals to display for an axis tick spacing. */
+export function decimalsFor(spacing: number): number {
+  return spacing >= 1 ? 0 : Math.ceil(-Math.log10(spacing));
+}

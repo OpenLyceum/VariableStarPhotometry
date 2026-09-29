@@ -25,7 +25,7 @@ standalone Flash labs, not one persistent lab session).
 - **4 pulsating** variables (`MT_Tel`, `del_Cep`, `PZ_Aql`, `RR_Leo`) with Fourier light-curve templates
 - **1 eclipsing binary** (`TW_Cas`)
 
-There are **109 observation epochs** (indices 0–108), each with `{ epoch, noiseSeed }`. Reference epoch
+There are **113 observation epochs** (indices 0–112), each with `{ epoch, noiseSeed }`. Reference epoch
 **1.7215 days**; dataset spans roughly **1.72–21.99 days**. Target variable **δ Cep** sits at pixel
 (308, 175).
 

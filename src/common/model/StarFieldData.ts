@@ -78,7 +78,7 @@ export const STARS: readonly StarDef[] = [
   { type: "pulsating", centerMagnitude: 3.7, prototypeName: "RR_Leo", x: 131, y: 201 },
 ] as const;
 
-// 109 observations from settings.xml <observationsList>
+// 113 observations from settings.xml <observationsList>
 export const OBSERVATIONS: readonly Observation[] = [
   { epoch: 1.7215, noiseSeed: 1256978718 },
   { epoch: 1.7422, noiseSeed: 1785390230 },

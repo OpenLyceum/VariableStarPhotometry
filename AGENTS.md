@@ -18,6 +18,7 @@ SceneryStack port of the NAAP **Variable Star Photometry** lab. Four screens wal
 | Screens | `src/registration/RegistrationScreen.ts`, `src/blink-comparator/BlinkComparatorScreen.ts`, `src/photometry/PhotometryScreen.ts`, `src/analyzer/AnalyzerScreen.ts` |
 | Shared model | `src/common/model/StarFieldData.ts`, `LightCurveLibrary.ts`, `CCDField.ts`, `AperturePhotometry.ts`, `PDMCalculator.ts` |
 | Shared views | `src/common/view/StarFieldNode.ts`, `ApertureNode.ts`, `FieldGridNode.ts`, `VariableStarPhotometryKeyboardHelpContent.ts` |
+| Analyzer views | `analyzer/view/AnalyzerStarSelectionNode.ts`, `AnalyzerObservationsNode.ts`, `AnalyzerDifferenceToolNode.ts`, `AnalyzerPeriodSearchNode.ts`; `AnalyzerScreenView.ts` composes them |
 | Per-screen models | `registration/model/RegistrationModel.ts`, `blink-comparator/model/BlinkComparatorModel.ts`, `photometry/model/PhotometryModel.ts`, `analyzer/model/AnalyzerModel.ts` |
 | Colors / constants | `src/VariableStarPhotometryColors.ts`, `src/VariableStarPhotometryConstants.ts` |
 | Strings | `src/i18n/StringManager.ts` |
@@ -37,7 +38,7 @@ Four **independent** screen models — **no cross-screen state** (registration o
 
 **Shared gotchas**
 
-- Synthetic field: **380 × 290 px**, 26 stars, **109 epochs**; `CCDField` singleton caches `ImageData` per `(obsIndex, invert)` and stamps **Airy-disc** PSFs (not Gaussian).
+- Synthetic field: **380 × 290 px**, 26 stars, **113 epochs**; `CCDField` singleton caches `ImageData` per `(obsIndex, invert)` and stamps **Airy-disc** PSFs (not Gaussian).
 - Model and view share **pixel coordinates** — `ModelViewTransform2.createIdentity()` in Photometry/Analyzer; Blink view may `scale(1.25)` on the view container only.
 - Target variable **δ Cep** at pixel (308, 175); dataset spans ~1.72–21.99 days.
 
@@ -92,6 +93,6 @@ npm run lint && npm run check && npm run build && npm test
 
 ## Development notes
 
-- **`VariableStarPhotometryConstants.ts`** uses nested frozen `as const` groups (`FIELD`, `APERTURE`, `TIME`, `LAYOUT`, `PDM`) instead of a flat namespace — intentional for five distinct concerns; still no magic numbers in model/view code.
+- **`VariableStarPhotometryConstants.ts`** uses nested frozen `as const` groups (`FIELD`, `APERTURE`, `TIME`, `LAYOUT`, `FONT_SIZE`, `PDM`, `ANALYZER`) instead of a flat namespace — grouped by concern; still no magic numbers in model/view code.
 - **`npm run decompile`** extracts NAAP Flash ActionScript via JPEXS FFDec from `../Baseline/Astronomy/flash-animations` into gitignored `NAAP/decompiled/`.
 - After `npm run build`, the sim is installable offline via Workbox (`dist/manifest.webmanifest`).

@@ -55,6 +55,17 @@ const FONT_SIZE = {
   TICK: 10, // chart tick labels (pt)
 } as const;
 
+/** Analyzer chart sizes and section spacing (view px). */
+const ANALYZER = {
+  OBSERVATIONS_WIDTH: 470, // light-curve plot width (px)
+  OBSERVATIONS_HEIGHT: 200, // light-curve plot height (px)
+  PDM_WIDTH: 850, // period-search plot width (px)
+  PDM_HEIGHT: 98, // period-search plot height (px)
+  DRAG_ZOOM_THRESHOLD: 6, // distinguish a period click from rubber-band zoom (px)
+  COLUMN_SPACING: 30, // space between the field and observations (px)
+  SECTION_SPACING: 10, // space above the period-search section (px)
+} as const;
+
 /** Analysis constants for the PDM period finder. */
 const PDM = {
   SCAN_STEPS: 400, // number of trial periods evaluated per scan pass
@@ -67,6 +78,7 @@ const VariableStarPhotometryConstants = {
   LAYOUT,
   FONT_SIZE,
   PDM,
+  ANALYZER,
 } as const;
 
 VariableStarPhotometryNamespace.register("VariableStarPhotometryConstants", VariableStarPhotometryConstants);

@@ -10,11 +10,11 @@ Four independent screens; no `VSPSimulationContext` or cross-screen state.
 ```
 src/main.ts                          Sim, 4 screens, VariableStarPhotometryPreferencesModel
 src/init.ts                          locales en/es/fr, colorProfiles, no sound
-src/VariableStarPhotometryConstants.ts                  FIELD, APERTURE, TIME, LAYOUT, PDM (SCAN_STEPS: 400)
+src/VariableStarPhotometryConstants.ts                  FIELD, APERTURE, TIME, LAYOUT, FONT_SIZE, PDM, ANALYZER
 src/VariableStarPhotometryColors.ts, VariableStarPhotometryNamespace.ts, brand/splash/assert
 
 src/common/model/
-  StarFieldData.ts                   26 stars, 109 obs, pulsating/eclipsing presets
+  StarFieldData.ts                   26 stars, 113 obs, pulsating/eclipsing presets
   LightCurveLibrary.ts               getPulsatingMagnitude, getEclipsingMagnitude
   CCDField.ts                        singleton render + getPhotometry + cache
   AperturePhotometry.ts              measureAperture, differentialMagnitude
@@ -43,14 +43,14 @@ Data flows Model → View via AXON `Property` / `DerivedProperty` / `Multilink`.
 ## Key design decisions
 
 1. **Identity `ModelViewTransform2`** — `ModelViewTransform2.createIdentity()` in `PhotometryScreenView`,
-   `AnalyzerScreenView`, and `ApertureNode`; model coords are pixel space. Blink view uses
+   `AnalyzerStarSelectionNode`, and `ApertureNode`; model coords are pixel space. Blink view uses
    `FIELD_SCALE = 1.25` on the view container only.
 2. **CCDField singleton** — caches `ImageData` per `(obsIndex, invert)` and `buildFieldData` for photometry
    loops. Photometry uses **raw counts**, not gamma-mapped display pixels.
 3. **Airy disc PSF + chunked noise shuffle** — not Gaussian PSF or per-render random noise.
 4. **Blink via `step(dt)`** — accumulates time; may advance multiple frames after long pauses; requires
    queue length ≥ 2.
-5. **PDM synchronous on main thread** — ~109 × 400 evaluations; acceptable cost.
+5. **PDM synchronous on main thread** — ~113 × 400 evaluations; acceptable cost.
 6. **Registration preference sync** — bidirectional links on invert/grid with `VariableStarPhotometryPreferencesModel`.
 7. **Query params seed screen models** — preferences hold grid/invert only; other params initialize models
    at construction.
@@ -75,6 +75,29 @@ Slider-backed aperture geometry; `epochIndexProperty`; two `Vector2Property` cen
 `selectStarAt`, `clearSelections`, zoom/undo methods, `getPhase`. `FULL_PDM_RANGE = [0.2, 10]`.
 `measurementsProperty` derived from both star positions; filters null Δm.
 
+## Analyzer view composition
+
+`AnalyzerScreenView` composes four screen-lifetime components:
+
+- `AnalyzerStarSelectionNode` owns the CCD field, selection markers, crosshair,
+  legend, and clear/crosshair controls. Fixed field bounds prevent marker and
+  crosshair movement from shifting the selection surface.
+- `AnalyzerObservationsNode` owns the light-curve scatter plot, adaptive axes,
+  period guides, and time/phase/offset controls.
+- `AnalyzerDifferenceToolNode` owns the magnitude-difference overlay and its
+  pointer/keyboard bar dragging; the observations component refreshes it after
+  axis changes.
+- `AnalyzerPeriodSearchNode` owns the PDM curve, period marker, pointer selection,
+  rubber-band zoom, best-period readout, and zoom controls.
+
+An `HBox` aligns the field and observations at the top; a `VBox` places PDM below
+both and relayouts when strings or readouts resize. The best-period readout groups
+with the PDM heading, and the selection hint wraps at the CCD field width.
+`ANALYZER` in the root constants file owns chart sizes and section spacing.
+Each section defines its own `pdomOrder`, including both difference-tool bars;
+Reset All remains last. Reset All resets scientific state in the model and the
+crosshair/difference-tool toggles in their owning components.
+
 ## Common components
 
 - `VariableStarPhotometryPreferencesModel`, `VariableStarPhotometryPreferencesNode`.
@@ -82,7 +105,10 @@ Slider-backed aperture geometry; `epochIndexProperty`; two `Vector2Property` cen
 
 ## Disposal
 
-Screen-lifetime architecture.
+Screen-lifetime architecture. The analyzer components use `isDisposable: false`,
+matching their owning `ScreenView`; model/preference subscriptions and view-only
+Properties remain alive for that screen. Dynamically replaced period-guide lines
+are still disposed when removed.
 
 ## Testing
 
