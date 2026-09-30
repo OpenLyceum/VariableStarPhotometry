@@ -302,7 +302,7 @@ export class BlinkComparatorScreenView extends ScreenView {
       // Show a checkmark indicator for observations already in the queue.
       if (isInQueue) {
         rowChildren.push(
-          new Text("✓", {
+          new Text(strings.inQueueMarkerStringProperty, {
             font: LABEL_FONT,
             fill: VariableStarPhotometryColors.queueMarkerColorProperty,
             left: 2,
@@ -372,7 +372,7 @@ export class BlinkComparatorScreenView extends ScreenView {
     };
 
     const obsScrollUpButton = new RectangularPushButton({
-      content: new Text("▲", { font: SMALL_FONT }),
+      content: new Text(strings.scrollUpStringProperty, { font: SMALL_FONT }),
       baseColor: VariableStarPhotometryColors.tableHeaderFillProperty,
       xMargin: 3,
       yMargin: 2,
@@ -381,7 +381,7 @@ export class BlinkComparatorScreenView extends ScreenView {
       ...FLAT_RECTANGULAR_BUTTON_OPTIONS,
     });
     const obsScrollDownButton = new RectangularPushButton({
-      content: new Text("▼", { font: SMALL_FONT }),
+      content: new Text(strings.scrollDownStringProperty, { font: SMALL_FONT }),
       baseColor: VariableStarPhotometryColors.tableHeaderFillProperty,
       xMargin: 3,
       yMargin: 2,
@@ -520,10 +520,16 @@ export class BlinkComparatorScreenView extends ScreenView {
       spacing: 20,
       align: "center",
       children: [
-        new Text("⟶", { font: new PhetFont(38), fill: VariableStarPhotometryColors.transferArrowColorProperty }),
+        new Text(strings.addToQueueArrowStringProperty, {
+          font: new PhetFont(38),
+          fill: VariableStarPhotometryColors.transferArrowColorProperty,
+        }),
         addButton,
         removeButton,
-        new Text("⟵", { font: new PhetFont(34), fill: VariableStarPhotometryColors.transferArrowColorProperty }),
+        new Text(strings.removeFromQueueArrowStringProperty, {
+          font: new PhetFont(34),
+          fill: VariableStarPhotometryColors.transferArrowColorProperty,
+        }),
       ],
     });
 

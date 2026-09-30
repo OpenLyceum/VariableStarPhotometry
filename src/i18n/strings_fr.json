@@ -84,7 +84,12 @@
       "fast": "rapide",
       "slow": "lent",
       "rate": "cadence :",
-      "noEpoch": "—"
+      "noEpoch": "—",
+      "inQueueMarker": "✓",
+      "scrollUp": "▲",
+      "scrollDown": "▼",
+      "addToQueueArrow": "⟶",
+      "removeFromQueueArrow": "⟵"
     },
     "photometry": {
       "observation": "observation :",

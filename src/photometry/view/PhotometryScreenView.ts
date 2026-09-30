@@ -58,8 +58,9 @@ const FIELD = CCDField.getInstance();
  * while the numbers continue to use raw CCD counts from the model.
  */
 class AperturePreviewNode extends CanvasNode {
-  private readonly buffer: HTMLCanvasElement;
-  private readonly bufferContext: CanvasRenderingContext2D;
+  /** Full-field frame, cropped in paintCanvas. Null until the first bitmap resolves. */
+  private frame: ImageBitmap | null = null;
+  private frameRequest = 0;
 
   private obsIndex: number;
   private invert: boolean;
@@ -78,25 +79,15 @@ class AperturePreviewNode extends CanvasNode {
     this.invert = invertProperty.value;
     this.apertureCenter = centerProperty.value;
 
-    this.buffer = document.createElement("canvas");
-    this.buffer.width = FIELD_W;
-    this.buffer.height = FIELD_H;
-    const context = this.buffer.getContext("2d");
-    if (!context) {
-      throw new Error("AperturePreviewNode: unable to obtain a 2D canvas context");
-    }
-    this.bufferContext = context;
-    this.updateBuffer();
+    this.refreshFrame();
 
     epochIndexProperty.link((index) => {
       this.obsIndex = index;
-      this.updateBuffer();
-      this.invalidatePaint();
+      this.refreshFrame();
     });
     invertProperty.link((invert) => {
       this.invert = invert;
-      this.updateBuffer();
-      this.invalidatePaint();
+      this.refreshFrame();
     });
     centerProperty.link((center) => {
       this.apertureCenter = center;
@@ -107,8 +98,23 @@ class AperturePreviewNode extends CanvasNode {
     VariableStarPhotometryColors.aperturePreviewBackgroundColorProperty.lazyLink(() => this.invalidatePaint());
   }
 
-  private updateBuffer(): void {
-    this.bufferContext.putImageData(FIELD.render(this.obsIndex, this.invert), 0, 0);
+  private refreshFrame(): void {
+    const imageData = FIELD.render(this.obsIndex, this.invert);
+    const request = ++this.frameRequest;
+    createImageBitmap(imageData).then(
+      (bitmap) => {
+        if (request !== this.frameRequest) {
+          bitmap.close();
+          return;
+        }
+        this.frame?.close();
+        this.frame = bitmap;
+        this.invalidatePaint();
+      },
+      () => {
+        // A failed bitmap leaves the previous frame (or a blank preview) in place.
+      },
+    );
   }
 
   public override paintCanvas(context: CanvasRenderingContext2D): void {
@@ -129,9 +135,14 @@ class AperturePreviewNode extends CanvasNode {
       return;
     }
 
+    const frame = this.frame;
+    if (!frame) {
+      return;
+    }
+
     context.imageSmoothingEnabled = false;
     context.drawImage(
-      this.buffer,
+      frame,
       sx,
       sy,
       sourceWidth,
