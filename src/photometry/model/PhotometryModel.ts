@@ -88,6 +88,19 @@ export class PhotometryModel implements TModel {
       },
     );
 
+    // Keep the sky annulus outside the aperture and at least one pixel wide.
+    // Preserve the control being edited by moving the neighboring boundaries.
+    this.apertureDiameterProperty.link((diameter) => {
+      this.annulusInnerRadiusProperty.value = Math.max(this.annulusInnerRadiusProperty.value, diameter / 2 + 1);
+    });
+    this.annulusInnerRadiusProperty.link((inner) => {
+      this.apertureDiameterProperty.value = Math.min(this.apertureDiameterProperty.value, 2 * (inner - 1));
+      this.annulusOuterRadiusProperty.value = Math.max(this.annulusOuterRadiusProperty.value, inner + 1);
+    });
+    this.annulusOuterRadiusProperty.link((outer) => {
+      this.annulusInnerRadiusProperty.value = Math.min(this.annulusInnerRadiusProperty.value, outer - 1);
+    });
+
     this.epochIndexProperty = new NumberProperty(0, {
       numberType: "Integer",
       range: EPOCH_INDEX_RANGE,
@@ -125,9 +138,9 @@ export class PhotometryModel implements TModel {
   }
 
   public reset(): void {
-    this.apertureDiameterProperty.reset();
-    this.annulusInnerRadiusProperty.reset();
     this.annulusOuterRadiusProperty.reset();
+    this.annulusInnerRadiusProperty.reset();
+    this.apertureDiameterProperty.reset();
     this.epochIndexProperty.reset();
     this.aperture1CenterProperty.reset();
     this.aperture2CenterProperty.reset();
