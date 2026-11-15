@@ -42,6 +42,7 @@ export const PDM_M = PDM_NB * PDM_NC; // total bins = 10
  * @param period  trial period (days)
  * @param t0      zero-phase reference epoch (default 0)
  * @returns θ ≥ 0 (small → good period); returns 1 when undefined (too few data).
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function pdmTheta(epochs: readonly number[], mags: readonly number[], period: number, t0 = 0): number {
   const N = mags.length;
