@@ -143,7 +143,11 @@ export function getPulsatingMagnitude(
   const t = (2 * Math.PI * (epoch - phaseOffset)) / preset.period;
   let mag = centerMagnitude;
   for (let i = 0; i < preset.fourierTerms.length; i++) {
-    const { A, phi } = preset.fourierTerms[i] as import("./StarFieldData.js").FourierTerm;
+    const term = preset.fourierTerms[i];
+    if (!term) {
+      continue;
+    }
+    const { A, phi } = term;
     mag += A * Math.cos((i + 1) * t + phi);
   }
   return mag;

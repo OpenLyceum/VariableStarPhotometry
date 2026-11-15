@@ -22,8 +22,6 @@ import type { Vector2 } from "scenerystack/dot";
 import type { RegionStats } from "./CCDField.js";
 import { CCDField } from "./CCDField.js";
 
-export type { RegionStats } from "./CCDField.js";
-
 const FIELD = CCDField.getInstance();
 
 export type PhotometryResult = {

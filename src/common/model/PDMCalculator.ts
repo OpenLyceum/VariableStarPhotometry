@@ -29,8 +29,8 @@
 export type PdmPoint = { period: number; theta: number };
 
 /** Default interleaved-bin parameters matching the NAAP Flash simulator. */
-export const PDM_NB = 5; // number of phase bins
-export const PDM_NC = 2; // number of interleaved phase offsets
+const PDM_NB = 5; // number of phase bins
+const PDM_NC = 2; // number of interleaved phase offsets
 export const PDM_M = PDM_NB * PDM_NC; // total bins = 10
 
 /**

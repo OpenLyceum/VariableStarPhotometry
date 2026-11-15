@@ -6,16 +6,16 @@
  * This is the single source of truth for star positions, magnitudes, and observation epochs.
  */
 
-export type ConstantStarDef = {
+type ConstantStarDef = {
   type: "constant";
   magnitude: number;
   x: number;
   y: number;
 };
 
-export type FourierTerm = { A: number; phi: number };
+type FourierTerm = { A: number; phi: number };
 
-export type PulsatingStarDef = {
+type PulsatingStarDef = {
   type: "pulsating";
   centerMagnitude: number;
   prototypeName: string;
@@ -23,7 +23,7 @@ export type PulsatingStarDef = {
   y: number;
 };
 
-export type EclipsingBinaryDef = {
+type EclipsingBinaryDef = {
   type: "eclipsing";
   peakMagnitude: number;
   prototypeName: string;

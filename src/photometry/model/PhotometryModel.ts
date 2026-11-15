@@ -32,7 +32,7 @@ export const ANNULUS_INNER_RANGE = new Range(8, 25);
 export const ANNULUS_OUTER_RANGE = new Range(12, 40);
 
 /** Index of the epoch (observation) being measured. */
-export const EPOCH_INDEX_RANGE = new Range(0, OBSERVATIONS.length - 1);
+const EPOCH_INDEX_RANGE = new Range(0, OBSERVATIONS.length - 1);
 
 /** Default aperture placements: a pulsating variable and a steady comparison. */
 const DEFAULT_APERTURE_1 = new Vector2(308, 175); // del Cep (variable)

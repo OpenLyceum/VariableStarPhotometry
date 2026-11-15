@@ -23,13 +23,13 @@ import VariableStarPhotometryNamespace from "../../VariableStarPhotometryNamespa
 export const BLINK_INTERVAL_RANGE = new Range(200, 2000);
 
 /** Range of selectable observation indices (0 … 108). */
-export const OBS_INDEX_RANGE = new Range(0, OBSERVATIONS.length - 1);
+const OBS_INDEX_RANGE = new Range(0, OBSERVATIONS.length - 1);
 
 /**
  * Default queue: an early and a late epoch so the field visibly blinks out of
  * the box (variable stars differ in brightness between these two epochs).
  */
-export const DEFAULT_QUEUE_INDICES: readonly number[] = [0, 36];
+const DEFAULT_QUEUE_INDICES: readonly number[] = [0, 36];
 
 export class BlinkComparatorModel implements TModel {
   /** Observation indices the comparator blinks through, in order. */

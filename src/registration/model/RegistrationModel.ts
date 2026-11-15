@@ -17,7 +17,7 @@ import VariableStarPhotometryNamespace from "../../VariableStarPhotometryNamespa
 // index 0  → epoch  1.7215 d  (reference)
 // index 36 → epoch  8.7525 d  (working A)
 // index 63 → epoch 12.9682 d  (working B)
-export const REG_OBS_INDICES = [0, 36, 63] as const;
+const REG_OBS_INDICES = [0, 36, 63] as const;
 
 /**
  * Telescope pointing error baked into each working frame (px), as in the NAAP

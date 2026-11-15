@@ -8,7 +8,7 @@
  */
 
 /** Pick a round axis spacing that yields roughly `target` ticks across `span`. */
-export function niceSpacing(span: number, target = 5): number {
+function niceSpacing(span: number, target = 5): number {
   if (!(span > 0 && Number.isFinite(span))) {
     return 1;
   }
