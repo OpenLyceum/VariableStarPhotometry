@@ -40,7 +40,7 @@ function fieldStar(x: number, y: number, r: number): Circle {
   });
 }
 
-function starField(seedStars: Array<[number, number, number]>): Node[] {
+function starField(seedStars: [number, number, number][]): Node[] {
   return seedStars.map(([x, y, r]) => fieldStar(x, y, r));
 }
 

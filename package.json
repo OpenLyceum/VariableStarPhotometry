@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Variable Star Photometry \u2014 a SceneryStack port of the NAAP Variable Star Photometry Lab.",
+  "description": "Variable Star Photometry — a SceneryStack port of the NAAP Variable Star Photometry Lab.",
   "license": "AGPL-3.0-or-later",
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "build": "tsc && vite build",
     "build:single": "tsc && vite build --mode single",
     "preview": "vite preview",
-    "lint": "biome check .",
+    "lint": "biome check --error-on-warnings .",
     "format": "biome format --write .",
     "fix": "biome check --write .",
     "check": "tsc --noEmit && tsc -p tsconfig.scripts.json --noEmit && tsc -p tsconfig.test.json --noEmit",
@@ -45,7 +45,7 @@
     "clean": "rm -rf dist",
     "prepare": "test \"$(git rev-parse --show-toplevel 2>/dev/null)\" = \"$PWD\" && git config core.hooksPath .githooks || true",
     "knip": "knip",
-    "test:architecture": "node --test tests/architecture.test.mjs",
+    "test:architecture": "node --test tests/architecture.node-test.ts",
     "decompile": "node scripts/decompile-flash.ts"
   },
   "dependencies": {
