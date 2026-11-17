@@ -47,10 +47,6 @@ Four **independent** screen models — **no cross-screen state** (registration o
 Follows the shared [OpenLyceum accessibility convention](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
 Each screen registers `*ScreenSummaryContent` via its `*Screen.ts` wrapper and sets explicit `pdomOrder` on a wrapper `Node`. A11y strings live under `a11y.registration`, `a11y.blinkComparator`, `a11y.photometry`, and `a11y.analyzer` in each locale JSON, via `StringManager.getRegistrationA11yStrings()` / `getBlinkComparatorA11yStrings()` / `getPhotometryA11yStrings()` / `getAnalyzerA11yStrings()`. `ApertureNode` is keyboard-operable via `KeyboardDragListener` (arrow keys; Shift for fine steps).
 
-## Compliance carve-outs
-
-- `.github/workflows/ci.yml`: `unused-mode: advisory` until both Knip default and production baselines are reviewed and cleared ([Baton/doc/knip.md](https://github.com/OpenLyceum/Baton/blob/main/doc/knip.md)).
-
 ## Testing
 
 | Path | Purpose |
