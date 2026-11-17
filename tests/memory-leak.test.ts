@@ -7,7 +7,7 @@
  * a block scope) so local strong references die when the helper returns.
  *
  * No model in src/ has a dispose() (and AnalyzerObservationsNode and the other analyzer
- * nodes are isDisposable: false), so describeDisposalLeaks([]) only runs the harness sanity
+ * nodes are isDisposable: false), so describeDisposalLeaks([], { emptyOk: "custom forceGC coverage below for PhotometryModel and charts" }) only runs the harness sanity
  * checks. Real coverage is:
  *  - PhotometryModel disposes its owned Properties explicitly (DerivedProperties first, then
  *    leaf Properties);
@@ -26,7 +26,9 @@ import { RegistrationModel } from "../src/registration/model/RegistrationModel.j
 import { describeDisposalLeaks, forceGC } from "./helpers/memoryLeak.js";
 
 // Nothing in src/ is created and disposed at run time (see the header).
-describeDisposalLeaks([]);
+describeDisposalLeaks([], {
+  emptyOk: "custom forceGC coverage below for PhotometryModel and charts",
+});
 
 /** Dispose all reactive state owned by a PhotometryModel instance. Idempotent. */
 function disposePhotometryModel(model: PhotometryModel): void {
