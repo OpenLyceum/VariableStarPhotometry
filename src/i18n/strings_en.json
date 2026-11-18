@@ -133,7 +133,12 @@
       "trialPeriodAxis": "trial period (days)",
       "phaseOffset": "phase offset (days)",
       "showDifferenceTool": "show difference tool",
-      "bestPeriodPattern": "best: {{value}} d"
+      "bestPeriodPattern": "best: {{value}} d",
+      "differenceToolControls": "Difference Tool",
+      "moveDeltaBar": "Move delta bar up or down",
+      "moveDeltaBarDescription": "With a delta bar focused, hold Up or Down arrow keys, or W or S, to move it.",
+      "moveDeltaBarSlower": "Move delta bar more slowly",
+      "moveDeltaBarSlowerDescription": "Hold Shift as well to move the delta bar more slowly."
     }
   },
   "messages": {

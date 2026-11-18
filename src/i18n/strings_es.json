@@ -133,7 +133,12 @@
       "trialPeriodAxis": "período de prueba (días)",
       "phaseOffset": "desfase (días)",
       "showDifferenceTool": "mostrar herramienta de diferencia",
-      "bestPeriodPattern": "mejor: {{value}} d"
+      "bestPeriodPattern": "mejor: {{value}} d",
+      "differenceToolControls": "Herramienta de diferencia",
+      "moveDeltaBar": "Mover la barra delta arriba o abajo",
+      "moveDeltaBarDescription": "Con una barra delta enfocada, mantenga las flechas arriba o abajo, o W o S, para moverla.",
+      "moveDeltaBarSlower": "Mover la barra delta más despacio",
+      "moveDeltaBarSlowerDescription": "Mantenga también Mayús para mover la barra delta más despacio."
     }
   },
   "messages": {

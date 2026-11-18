@@ -1,3 +1,14 @@
+/**
+ * VariableStarPhotometryKeyboardHelpContent.ts
+ *
+ * Per-screen keyboard-help content. The Analyzer's difference tool has two delta
+ * bars (AnalyzerDifferenceToolNode), each a focusable "upDown" RichDragListener
+ * with dragSpeed/shiftDragSpeed. MoveDraggableItemsKeyboardHelpSection would also
+ * list left/right, so those rows use the key strings KeyboardDragListener
+ * registers for "upDown"; no second listener is added.
+ */
+
+import { HotkeyData } from "scenerystack/scenery";
 import {
   BasicActionsKeyboardHelpSection,
   KeyboardHelpSection,
@@ -12,6 +23,28 @@ import { StringManager } from "../../i18n/StringManager.js";
 
 export type VariableStarPhotometryKeyboardHelpScreen = "registration" | "blink" | "photometry" | "analyzer";
 
+const createDifferenceToolSection = (): KeyboardHelpSection => {
+  const analyzerStrings = StringManager.getInstance().getAnalyzerViewStrings();
+  // KeyboardDragListener's "upDown" key strings (shift is an ignored modifier).
+  const moveHotkeyData = new HotkeyData({
+    keys: ["shift?+arrowUp", "shift?+arrowDown", "shift?+w", "shift?+s"],
+    repoName: "variable-star-photometry",
+    keyboardHelpDialogLabelStringProperty: analyzerStrings.moveDeltaBarStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: analyzerStrings.moveDeltaBarDescriptionStringProperty,
+  });
+  // Shift selects the listener's slower shiftDragSpeed; this row only documents it.
+  const moveSlowerHotkeyData = new HotkeyData({
+    keys: ["shift+arrowUp", "shift+arrowDown", "shift+w", "shift+s"],
+    repoName: "variable-star-photometry",
+    keyboardHelpDialogLabelStringProperty: analyzerStrings.moveDeltaBarSlowerStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: analyzerStrings.moveDeltaBarSlowerDescriptionStringProperty,
+  });
+  return new KeyboardHelpSection(analyzerStrings.differenceToolControlsStringProperty, [
+    KeyboardHelpSectionRow.fromHotkeyData(moveHotkeyData),
+    KeyboardHelpSectionRow.fromHotkeyData(moveSlowerHotkeyData),
+  ]);
+};
+
 const createLeftSections = (screen: VariableStarPhotometryKeyboardHelpScreen) => {
   switch (screen) {
     case "registration":
@@ -20,7 +53,7 @@ const createLeftSections = (screen: VariableStarPhotometryKeyboardHelpScreen) =>
     case "blink":
       return [new TimeControlsKeyboardHelpSection()];
     case "analyzer":
-      return [new SliderControlsKeyboardHelpSection()];
+      return [new SliderControlsKeyboardHelpSection(), createDifferenceToolSection()];
   }
 };
 
