@@ -105,7 +105,7 @@ export class AnalyzerPeriodSearchNode extends VBox {
       const local = pdmHit.globalToLocalPoint(event.pointer.point);
       return clampPdmViewX(local.x);
     };
-    // Pointer rubber-band zoom / click-to-set period. Keyboard period control is
+    // Pointer-only: rubber-band zoom / click-to-set period. Keyboard period control is
     // via the period NumberPicker elsewhere; a RichDragListener would not map
     // sensibly onto drag-to-zoom-range selection.
     pdmHit.addInputListener(
