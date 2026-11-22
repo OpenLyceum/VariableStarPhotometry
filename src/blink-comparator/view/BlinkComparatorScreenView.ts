@@ -338,8 +338,11 @@ export class BlinkComparatorScreenView extends ScreenView {
     };
 
     const rebuildObservationList = () => {
+      // disposeSubtree(): Node.dispose() leaves the row's Text / Rectangle children,
+      // and Text nodes stay linked to sim-lifetime string Properties (e.g. the
+      // in-queue marker) — the pointer-fuzz heap climb on this screen.
       for (const child of observationRows.children.slice()) {
-        child.dispose();
+        child.disposeSubtree();
       }
       for (const prop of observationRowProps) {
         prop.dispose();
@@ -451,8 +454,10 @@ export class BlinkComparatorScreenView extends ScreenView {
     };
 
     const rebuildQueueList = () => {
+      // Same as observationRows: disposeSubtree so epoch Text nodes release their
+      // string Properties instead of surviving on the parent Node alone.
       for (const child of queueRows.children.slice()) {
-        child.dispose();
+        child.disposeSubtree();
       }
       for (const prop of queueRowProps) {
         prop.dispose();

@@ -20,10 +20,12 @@ import { Vector2 } from "scenerystack/dot";
 import { describe, expect, it } from "vitest";
 import { AnalyzerModel } from "../src/analyzer/model/AnalyzerModel.js";
 import { BlinkComparatorModel } from "../src/blink-comparator/model/BlinkComparatorModel.js";
+import { BlinkComparatorScreenView } from "../src/blink-comparator/view/BlinkComparatorScreenView.js";
+import { StringManager } from "../src/i18n/StringManager.js";
 import { PhotometryModel } from "../src/photometry/model/PhotometryModel.js";
 import { VariableStarPhotometryPreferencesModel } from "../src/preferences/VariableStarPhotometryPreferencesModel.js";
 import { RegistrationModel } from "../src/registration/model/RegistrationModel.js";
-import { describeDisposalLeaks, forceGC } from "./helpers/memoryLeak.js";
+import { describeDisposalLeaks, expectNoListenerGrowth, forceGC } from "./helpers/memoryLeak.js";
 
 // Nothing in src/ is created and disposed at run time (see the header).
 describeDisposalLeaks([], {
@@ -136,4 +138,30 @@ describe("Screen models (no dispose(): create/drop)", () => {
       expect(refs.filter((r) => r.deref() !== undefined).length).toBe(0);
     });
   }
+});
+
+// BlinkComparatorScreenView rebuilds observation/queue rows on selection and queue
+// changes. Rows include Text(inQueueMarkerStringProperty); Node.dispose() alone left
+// those Text nodes linked to the sim-lifetime string Property (pointer-fuzz climb).
+describe("BlinkComparatorScreenView row rebuilds", () => {
+  it("selection/queue churn leaves no listeners on inQueueMarkerStringProperty", async () => {
+    const preferences = new VariableStarPhotometryPreferencesModel();
+    const model = new BlinkComparatorModel();
+    // ScreenView is long-lived; we only assert that rebuilds do not accumulate listeners.
+    new BlinkComparatorScreenView(model, preferences);
+
+    // Warm up so the visible in-queue checkmark count is stable before sampling.
+    // Growing the queue during the assertion would add live Text(marker) nodes and
+    // look like a leak even with correct disposeSubtree teardown.
+    for (let i = 0; i < 10; i++) {
+      model.selectedObsIndexProperty.value = i;
+      model.addSelectedToQueue();
+    }
+
+    const marker = StringManager.getInstance().getBlinkViewStrings().inQueueMarkerStringProperty;
+    await expectNoListenerGrowth([marker, model.selectedObsIndexProperty, model.queuePositionProperty], () => {
+      model.selectedObsIndexProperty.value = (model.selectedObsIndexProperty.value + 1) % 10;
+      model.queuePositionProperty.value = (model.queuePositionProperty.value + 1) % model.blinkQueue.length;
+    });
+  });
 });
