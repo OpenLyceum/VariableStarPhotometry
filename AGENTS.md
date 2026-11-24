@@ -68,3 +68,7 @@ Each screen registers `*ScreenSummaryContent` via its `*Screen.ts` wrapper and s
 - **`VariableStarPhotometryConstants.ts`** uses nested frozen `as const` groups (`FIELD`, `APERTURE`, `TIME`, `LAYOUT`, `FONT_SIZE`, `PDM`, `ANALYZER`) instead of a flat namespace — grouped by concern; still no magic numbers in model/view code.
 - **`npm run decompile`** extracts NAAP Flash ActionScript via JPEXS FFDec from `../Baseline/Astronomy/flash-animations` into gitignored `NAAP/decompiled/`.
 - After `npm run build`, the sim is installable offline via Workbox (`dist/manifest.webmanifest`).
+
+## Compliance carve-outs
+
+None.
