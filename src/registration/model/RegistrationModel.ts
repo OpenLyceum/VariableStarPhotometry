@@ -7,7 +7,7 @@
  * reference image by shifting the "working" images in X/Y.
  */
 import { BooleanProperty, NumberProperty } from "scenerystack/axon";
-import { Range } from "scenerystack/dot";
+import { Range, roundSymmetric } from "scenerystack/dot";
 import type { TModel } from "scenerystack/joist";
 import type { Tandem } from "scenerystack/tandem";
 import type { VariableStarPhotometryPreferencesModel } from "../../preferences/VariableStarPhotometryPreferencesModel.js";
@@ -32,7 +32,7 @@ export const REG_POINTING_ERRORS = {
 } as const;
 
 const OFFSET_RANGE = new Range(-100, 100);
-const clampOffset = (value: number) => Math.round(Math.max(OFFSET_RANGE.min, Math.min(OFFSET_RANGE.max, value)));
+const clampOffset = (value: number) => roundSymmetric(Math.max(OFFSET_RANGE.min, Math.min(OFFSET_RANGE.max, value)));
 
 export class RegistrationModel implements TModel {
   public readonly obsIndex1 = REG_OBS_INDICES[0];

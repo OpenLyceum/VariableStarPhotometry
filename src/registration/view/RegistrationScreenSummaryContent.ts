@@ -7,6 +7,7 @@
  * non-visual user can re-read the alignment state at any time.
  */
 import { DerivedProperty } from "scenerystack/axon";
+import { roundSymmetric } from "scenerystack/dot";
 import { StringUtils } from "scenerystack/phetcommon";
 import { ScreenSummaryContent } from "scenerystack/sim";
 import { StringManager } from "../../i18n/StringManager.js";
@@ -16,7 +17,7 @@ export class RegistrationScreenSummaryContent extends ScreenSummaryContent {
   public constructor(model: RegistrationModel) {
     const a11y = StringManager.getInstance().getRegistrationA11yStrings();
 
-    const currentDetails = new DerivedProperty(
+    const currentDetailsProperty = new DerivedProperty(
       [
         model.onTopIndexProperty,
         model.xOffset2Property,
@@ -30,8 +31,8 @@ export class RegistrationScreenSummaryContent extends ScreenSummaryContent {
         const y = onTop === 2 ? y2 : y3;
         return StringUtils.fillIn(pattern, {
           number: String(onTop),
-          x: String(Math.round(x)),
-          y: String(Math.round(y)),
+          x: String(roundSymmetric(x)),
+          y: String(roundSymmetric(y)),
         });
       },
     );
@@ -39,7 +40,7 @@ export class RegistrationScreenSummaryContent extends ScreenSummaryContent {
     super({
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
-      currentDetailsContent: currentDetails,
+      currentDetailsContent: currentDetailsProperty,
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });
   }

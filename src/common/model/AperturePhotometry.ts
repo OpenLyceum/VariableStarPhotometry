@@ -19,6 +19,7 @@
  */
 
 import type { Vector2 } from "scenerystack/dot";
+import { roundSymmetric } from "scenerystack/dot";
 import type { RegionStats } from "./CCDField.js";
 import { CCDField } from "./CCDField.js";
 
@@ -46,8 +47,8 @@ export function measureAperture(
 ): PhotometryResult {
   return FIELD.getPhotometry(
     obsIndex,
-    Math.round(center.x),
-    Math.round(center.y),
+    roundSymmetric(center.x),
+    roundSymmetric(center.y),
     apertureRadius,
     skyInnerRadius,
     skyOuterRadius,

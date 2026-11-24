@@ -14,7 +14,7 @@
  *                                                       [Reset All]
  */
 import { DerivedProperty, Multilink, PatternStringProperty, type TReadOnlyProperty } from "scenerystack/axon";
-import { Bounds2, Dimension2, toFixed, type Vector2 } from "scenerystack/dot";
+import { Bounds2, Dimension2, roundSymmetric, toFixed, type Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { ModelViewTransform2 } from "scenerystack/phetcommon";
@@ -122,8 +122,8 @@ class AperturePreviewNode extends CanvasNode {
     context.fillRect(0, 0, APERTURE_PREVIEW_SIZE, APERTURE_PREVIEW_SIZE);
 
     const half = APERTURE_PREVIEW_FIELD_SIZE / 2;
-    const cropLeft = Math.round(this.apertureCenter.x - half);
-    const cropTop = Math.round(this.apertureCenter.y - half);
+    const cropLeft = roundSymmetric(this.apertureCenter.x - half);
+    const cropTop = roundSymmetric(this.apertureCenter.y - half);
     const sx = Math.max(0, cropLeft);
     const sy = Math.max(0, cropTop);
     const sx2 = Math.min(FIELD_W, cropLeft + APERTURE_PREVIEW_FIELD_SIZE);
@@ -430,10 +430,10 @@ export class PhotometryScreenView extends ScreenView {
         move: (event: SceneryEvent) => {
           const local = previewHitArea.globalToLocalPoint(event.pointer.point);
           // Convert preview coordinates back to field coordinates.
-          const fieldX = Math.round(
+          const fieldX = roundSymmetric(
             local.x / APERTURE_PREVIEW_SCALE + centerProperty.value.x - APERTURE_PREVIEW_FIELD_SIZE / 2,
           );
-          const fieldY = Math.round(
+          const fieldY = roundSymmetric(
             local.y / APERTURE_PREVIEW_SCALE + centerProperty.value.y - APERTURE_PREVIEW_FIELD_SIZE / 2,
           );
 
@@ -464,14 +464,14 @@ export class PhotometryScreenView extends ScreenView {
       const centerXText = new Text(
         pattern(
           strings.centerXStringProperty,
-          new DerivedProperty([centerProperty], (center) => String(Math.round(center.x))),
+          new DerivedProperty([centerProperty], (center) => String(roundSymmetric(center.x))),
         ),
         { font: LABEL_FONT },
       );
       const centerYText = new Text(
         pattern(
           strings.centerYStringProperty,
-          new DerivedProperty([centerProperty], (center) => String(Math.round(center.y))),
+          new DerivedProperty([centerProperty], (center) => String(roundSymmetric(center.y))),
         ),
         { font: LABEL_FONT },
       );

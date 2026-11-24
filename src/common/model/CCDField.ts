@@ -13,6 +13,7 @@
  *   const { disc, sky, netFlux } = field.getPhotometry( epochIndex, cx, cy, rAp, rSkyIn, rSkyOut );
  */
 
+import { roundSymmetric } from "scenerystack/dot";
 import { getEclipsingMagnitude, getPulsatingMagnitude } from "./LightCurveLibrary.js";
 import { FIELD_PARAMS, OBSERVATIONS, STARS } from "./StarFieldData.js";
 
@@ -139,7 +140,7 @@ function buildGammaLUT(invert: boolean): Uint8Array {
   const lut = new Uint8Array(peakValue + 1);
   const inv = 1 / 1.8;
   for (let v = 0; v <= peakValue; v++) {
-    let g = Math.round(255 * (v / peakValue) ** inv);
+    let g = roundSymmetric(255 * (v / peakValue) ** inv);
     if (g < 0) {
       g = 0;
     }
@@ -338,7 +339,7 @@ export class CCDField {
     for (let y = 0; y < H; y++) {
       for (let x = 0; x < W; x++) {
         const m = x + y * W;
-        const v = Math.round(this.getFieldValue(m, chunkTable, fieldData));
+        const v = roundSymmetric(this.getFieldValue(m, chunkTable, fieldData));
         const g = lut[v] as number;
         const i = m * 4;
         buf[i] = g;
@@ -430,7 +431,7 @@ export class CCDField {
       return 0;
     }
     const { fieldData, chunkTable } = this.buildFieldData(obsIndex);
-    const m = Math.round(x) + Math.round(y) * W;
+    const m = roundSymmetric(x) + roundSymmetric(y) * W;
     return this.getFieldValue(m, chunkTable, fieldData);
   }
 

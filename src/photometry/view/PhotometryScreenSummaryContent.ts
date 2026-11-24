@@ -18,7 +18,7 @@ export class PhotometryScreenSummaryContent extends ScreenSummaryContent {
   public constructor(model: PhotometryModel) {
     const a11y = StringManager.getInstance().getPhotometryA11yStrings();
 
-    const currentDetails = new DerivedProperty(
+    const currentDetailsProperty = new DerivedProperty(
       [
         model.epochIndexProperty,
         model.magnitudeDifferenceProperty,
@@ -38,7 +38,7 @@ export class PhotometryScreenSummaryContent extends ScreenSummaryContent {
     super({
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
-      currentDetailsContent: currentDetails,
+      currentDetailsContent: currentDetailsProperty,
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });
   }
