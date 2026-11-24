@@ -16,7 +16,7 @@ export class BlinkComparatorScreenSummaryContent extends ScreenSummaryContent {
   public constructor(model: BlinkComparatorModel) {
     const a11y = StringManager.getInstance().getBlinkComparatorA11yStrings();
 
-    const currentDetails = new DerivedProperty(
+    const currentDetailsProperty = new DerivedProperty(
       [
         model.blinkQueue.lengthProperty,
         model.isBlinkingProperty,
@@ -30,7 +30,7 @@ export class BlinkComparatorScreenSummaryContent extends ScreenSummaryContent {
     super({
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
-      currentDetailsContent: currentDetails,
+      currentDetailsContent: currentDetailsProperty,
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });
   }

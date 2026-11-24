@@ -4,7 +4,7 @@
  * CCD field, star-selection markers, pointer crosshair, and selection controls.
  */
 import { BooleanProperty } from "scenerystack/axon";
-import { Bounds2, Vector2 } from "scenerystack/dot";
+import { Bounds2, roundSymmetric, Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { ModelViewTransform2 } from "scenerystack/phetcommon";
 import { Circle, HBox, Line, Node, Rectangle, RichText, type SceneryEvent, Text, VBox } from "scenerystack/scenery";
@@ -127,8 +127,8 @@ export class AnalyzerStarSelectionNode extends VBox {
         crosshairV.x = viewPoint.x;
 
         // Update coordinate readout (clamped to field bounds like Flash).
-        const px = Math.max(0, Math.min(FIELD_W - 1, Math.round(viewPoint.x)));
-        const py = Math.max(0, Math.min(FIELD_H - 1, Math.round(viewPoint.y)));
+        const px = Math.max(0, Math.min(FIELD_W - 1, roundSymmetric(viewPoint.x)));
+        const py = Math.max(0, Math.min(FIELD_H - 1, roundSymmetric(viewPoint.y)));
         crosshairCoordText.string = `${px}, ${py}`;
         crosshairCoordBg.setRect(0, 0, crosshairCoordText.width + 6, crosshairCoordText.height + 4);
         crosshairCoordText.x = 3;
@@ -149,7 +149,7 @@ export class AnalyzerStarSelectionNode extends VBox {
         // (CCD pixel) space before passing to the model.
         const viewPoint = hitArea.globalToLocalPoint(event.pointer.point);
         const modelPoint = fieldMVT.viewToModelPosition(viewPoint);
-        model.selectStarAt(new Vector2(Math.round(modelPoint.x), Math.round(modelPoint.y)));
+        model.selectStarAt(new Vector2(roundSymmetric(modelPoint.x), roundSymmetric(modelPoint.y)));
       },
     });
 

@@ -17,7 +17,7 @@ export class AnalyzerScreenSummaryContent extends ScreenSummaryContent {
   public constructor(model: AnalyzerModel) {
     const a11y = StringManager.getInstance().getAnalyzerA11yStrings();
 
-    const currentDetails = new DerivedProperty(
+    const currentDetailsProperty = new DerivedProperty(
       [
         model.measurementsProperty,
         model.trialPeriodProperty,
@@ -36,7 +36,7 @@ export class AnalyzerScreenSummaryContent extends ScreenSummaryContent {
     super({
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
-      currentDetailsContent: currentDetails,
+      currentDetailsContent: currentDetailsProperty,
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });
   }

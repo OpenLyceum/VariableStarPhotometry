@@ -20,7 +20,7 @@ import {
   type ReadOnlyProperty,
   type TReadOnlyProperty,
 } from "scenerystack/axon";
-import { toFixed } from "scenerystack/dot";
+import { roundSymmetric, toFixed } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import type { SceneryEvent } from "scenerystack/scenery";
@@ -173,8 +173,8 @@ export class BlinkComparatorScreenView extends ScreenView {
         crosshairV.x = point.x;
 
         // Update coordinate readout (clamped to field bounds like Flash).
-        const px = Math.max(0, Math.min(FIELD_W - 1, Math.round(point.x)));
-        const py = Math.max(0, Math.min(FIELD_H - 1, Math.round(point.y)));
+        const px = Math.max(0, Math.min(FIELD_W - 1, roundSymmetric(point.x)));
+        const py = Math.max(0, Math.min(FIELD_H - 1, roundSymmetric(point.y)));
         crosshairCoordText.string = `${px}, ${py}`;
         crosshairCoordBg.setRect(0, 0, crosshairCoordText.width + 6, crosshairCoordText.height + 4);
         crosshairCoordText.x = 3;
